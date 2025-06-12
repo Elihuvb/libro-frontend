@@ -10,6 +10,10 @@ export default function PostDetail({ token }) {
   const [comment, setComment] = useState('')
   const [userId, setUserId] = useState(null)
 
+  const API = import.meta.env.VITE_API_URL;
+
+  fetch(`${API}/posts`)
+
   useEffect(() => {
     fetchPost()
     fetchComments()
@@ -26,14 +30,14 @@ export default function PostDetail({ token }) {
   }
 
   const fetchPost = async () => {
-    const res = await fetch(`http://localhost:3000/posts`)
+    const res = await fetch(`${API}/posts`)
     const data = await res.json()
     const match = data.find((p) => p.id === parseInt(id))
     setPost(match)
   }
 
   const fetchComments = async () => {
-    const res = await fetch(`http://localhost:3000/posts/${id}/comments`)
+    const res = await fetch(`${API}/posts/${id}/comments`)
     const data = await res.json()
     setComments(data)
   }
@@ -41,7 +45,7 @@ export default function PostDetail({ token }) {
   const handleComment = async (e) => {
     e.preventDefault()
     if (!comment.trim()) return
-    await fetch(`http://localhost:3000/posts/${id}/comments`, {
+    await fetch(`${API}/posts/${id}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +58,7 @@ export default function PostDetail({ token }) {
   }
 
   const handleDeleteComment = async (commentId) => {
-    await fetch(`http://localhost:3000/comments/${commentId}`, {
+    await fetch(`${API}/comments/${commentId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,

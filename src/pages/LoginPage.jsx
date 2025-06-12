@@ -6,10 +6,12 @@ export default function LoginPage({ onLogin }) {
   const [error, setError] = useState('')
   const [mode, setMode] = useState('login') // 'login' or 'register'
 
+  const API = import.meta.env.VITE_API_URL;
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     const endpoint = mode === 'login' ? '/login' : '/register'
-    const res = await fetch(`http://localhost:3000${endpoint}`, {
+    const res = await fetch(`${API}${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),

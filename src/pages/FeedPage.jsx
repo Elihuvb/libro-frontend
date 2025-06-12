@@ -9,6 +9,8 @@ export default function FeedPage({ token, onLogout }) {
   const [username, setUsername] = useState('')
   const navigate = useNavigate()
 
+  const API = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     fetchPosts()
     decodeToken()
@@ -25,7 +27,7 @@ export default function FeedPage({ token, onLogout }) {
   }
 
   const fetchPosts = async () => {
-    const res = await fetch('http://localhost:3000/posts')
+    const res = await fetch(`${API}/posts`)
     const data = await res.json()
     setPosts(data)
   }
@@ -34,7 +36,7 @@ export default function FeedPage({ token, onLogout }) {
     e.preventDefault()
     if (!content.trim()) return setError('El contenido no puede estar vacío')
 
-    const res = await fetch('http://localhost:3000/posts', {
+    const res = await fetch(`${API}/posts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ export default function FeedPage({ token, onLogout }) {
   }
 
   const handleDelete = async (postId) => {
-    const res = await fetch(`http://localhost:3000/posts/${postId}`, {
+    const res = await fetch(`${API}/posts/${postId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
